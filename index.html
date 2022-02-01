@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo search API</title>
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            text-align: center;         
+        }
+        #search-form{
+            width: 70%;
+            margin: 20px auto;
+        }
+        .search-input{
+            width: 100%;
+            padding: 10px 5px;
+            border-radius: 8px;
+            border: 1px solid black;
+        }
+        .photos-container{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 40px;
+            border: 1px solid red;
+        }
+        .photo-div{
+            margin: 5px;
+            width: 400px;
+            border: 1px solid green;
+        }
+        .photo-div img{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <form id='search-form' action="submit">
+        <input class="search-input" type="text" placeholder="Search">
+    </form>
+    <div class="photos-container"></div>
+
+    <script>
+        var searchForm = document.querySelector('#search-form');
+        searchForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            
+            var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                var data = JSON.parse(xhttp.responseText);
+                var photosData = data.photos.map(photo => {
+                    return photo;
+                });
+                var photosContainer = document.querySelector('.photos-container');
+                photosContainer.innerHTML='';
+
+                photosData.forEach(photoData => {
+                    var photoDiv = document.createElement('div');
+                    photoDiv.classList.add('photo-div');
+                    
+                    photoDiv.innerHTML = `
+                        <img src='${photoData.src.medium}'>
+                    `;
+                    photosContainer.appendChild(photoDiv);        
+                })
+            }
+        };
+        var searchInputValue = document.querySelector('.search-input').value;
+        xhttp.open("GET", `https://api.pexels.com/v1/search?query=${searchInputValue}`, true);
+        xhttp.setRequestHeader('Authorization', '563492ad6f91700001000001d158e41784c94f5fa73a82762e3f5a47');
+        xhttp.send();
+        })
+    </script>
+</body>
+</html>
