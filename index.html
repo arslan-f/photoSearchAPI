@@ -33,6 +33,9 @@
             border-radius: 8px;
             border: 1px solid black;
         }
+        h2{
+            font-family: 'Courier New', Courier, monospace;
+        }
         .photos-container{
             columns: 3;
             column-gap: 20px;
@@ -51,6 +54,7 @@
     <form id='search-form' action="submit">
         <input class="search-input" type="text" placeholder="Search">
     </form>
+    <h2>Type Anything</h2>
     <div class="photos-container"></div>
 
     <script>
@@ -66,6 +70,8 @@
                 var photosData = data.photos.map(photo => {
                     return photo;
                 });
+                var title = document.querySelector('h2');
+                title.style.display = 'none';
                 var photosContainer = document.querySelector('.photos-container');
                 photosContainer.innerHTML='';
 
