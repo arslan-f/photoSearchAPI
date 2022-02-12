@@ -81,7 +81,7 @@
             }
         };
         var searchInputValue = document.querySelector('.search-input').value;
-        xhttp.open("GET", `https://api.pexels.com/v1/search?query=${searchInputValue}`, true);
+        xhttp.open("GET", `https://api.pexels.com/v1/search?query=${searchInputValue}&per_page=30`, true);
         xhttp.setRequestHeader('Authorization', '563492ad6f91700001000001d158e41784c94f5fa73a82762e3f5a47');
         xhttp.send();
         })
